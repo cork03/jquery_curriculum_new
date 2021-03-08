@@ -49,7 +49,6 @@
         .done(function(data) {
           const _data = data.colorsArray;
           $.each(_data, function(index, elem) {
-            const value =
             $('.colorList').append(`<li class="colorList__item"><p class="colorList__title" style="background-color: ${elem.hexValue};">${elem.colorName}</p></li>`);
           })
         });
