@@ -176,24 +176,24 @@
                 return
               }
               debugger
-              // $.ajax({
-              //   url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522',
-              //   type: 'GET',
-              //   datatype: 'json',
-              //   data: {
-              //     applicationId: appId,
-              //     booksGenreId: '001',
-              //     keyword: value,
-              //     hits: 20,
-              //     page: page
-              //   },
-              // }).done(function(data) {
-              //   console.log(data);
-              //   debugger
-              // }).fail(function() {
-              //   debugger
-              // });
-              // $.each(itemsList, getList);
+              $.ajax({
+                url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522',
+                type: 'GET',
+                datatype: 'json',
+                data: {
+                  applicationId: appId,
+                  booksGenreId: '001',
+                  keyword: value,
+                  hits: 20,
+                  page: page
+                },
+              }).done(function(data) {
+                console.log(data);
+                debugger
+              }).fail(function() {
+                debugger
+              });
+              $.each(itemsList, getList);
               console.log('test');
               debugger
             });

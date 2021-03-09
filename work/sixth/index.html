@@ -28,9 +28,9 @@
       // .val() input要素のvalueを取得します。
       $(function() {
         $('.input').keyup(function() {
-          const textCount = $(this).val().replace(/\s+/g,"").length;
-          const maxCount = 30
-          const restCount = maxCount - textCount;
+          var textCount = $(this).val().replace(/\s+/g,"").length;
+          var maxCount = 30
+          var restCount = maxCount - textCount;
           $('.rest-count').text(restCount);
           if(textCount > 30) {
             $(this).addClass('red');

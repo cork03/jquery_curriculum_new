@@ -43,9 +43,9 @@
       // .fadeIn() 要素をフェードインさせる。
       // .fadeOut() 要素をフェードアウトさせる。
        $(function() {
-         const scrollTopBtn = $('.scrollTopBtn');
+         var scrollTopBtn = $('.scrollTopBtn');
          $(window).scroll(function() {
-           const scrollRange = $(this).scrollTop();
+           var scrollRange = $(this).scrollTop();
            if(scrollRange >= 100) {
              scrollTopBtn.fadeIn();
            } else {
@@ -58,11 +58,11 @@
             });
           });
           $('.menu__btn').click(function() {
-            const btnData = $(this).data('scroll-place-type');
+            var btnData = $(this).data('scroll-place-type');
             $('.title').each(function() {
-              const titleDate = $(this).data('scroll-place-type');
+              var titleDate = $(this).data('scroll-place-type');
               if(btnData === titleDate) {
-                const titlePlace = $(this).offset().top;
+                var titlePlace = $(this).offset().top;
                 $('body,html').animate({
                   scrollTop: titlePlace
                 });

@@ -35,10 +35,10 @@
       // .width() 要素の幅を取得します。
       // .length 要素の個数を取得します。
       $(function() {
-        let count = 0
-        const sliderList = $('.slider-list');
-        const maxCount = sliderList.children().length-1;
-        const moveWidth = sliderList.find('li').find('img').width();
+        var count = 0
+        var sliderList = $('.slider-list');
+        var maxCount = sliderList.children().length-1;
+        var moveWidth = sliderList.find('li').find('img').width();
         $('.is-next').click(function() {
           if(count === maxCount) {
             count = 0

@@ -47,7 +47,7 @@
           url: './data.json'
         })
         .done(function(data) {
-          const _data = data.colorsArray;
+          var _data = data.colorsArray;
           $.each(_data, function(index, elem) {
             $('.colorList').append(`<li class="colorList__item"><p class="colorList__title" style="background-color: ${elem.hexValue};">${elem.colorName}</p></li>`);
           })
