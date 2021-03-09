@@ -153,6 +153,7 @@
         $('.search__btn').click(function() {
           resetHtml();
           value = $('.search__text__input').val();
+          page = 1;
           $.ajax({
             url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522',
             type: 'GET',
@@ -169,7 +170,6 @@
               $('.message').append(`<p class="error-message">検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。</p>`);
               return
             }
-            page = data.page;
             maxPage = data.pageCount;
             display(data);
           }).fail(function (jqXHR) {
