@@ -40,7 +40,7 @@
         var maxCount = sliderList.children().length-1;
         var moveWidth = sliderList.find('li').find('img').width();
         $('.is-next').click(function() {
-          if(count === maxCount) {
+          if (count === maxCount) {
             count = 0
           } else {
             count += 1;
@@ -50,7 +50,7 @@
             },500);
         });
         $('.is-prev').click(function() {
-          if(count === 0) {
+          if (count === 0) {
             count = maxCount
           } else {
             count -= 1;

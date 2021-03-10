@@ -46,7 +46,7 @@
          var scrollTopBtn = $('.scrollTopBtn');
          $(window).scroll(function() {
            var scrollRange = $(this).scrollTop();
-           if(scrollRange >= 100) {
+           if (scrollRange >= 100) {
              scrollTopBtn.fadeIn();
            } else {
              scrollTopBtn.fadeOut();
@@ -61,7 +61,7 @@
             var btnData = $(this).data('scroll-place-type');
             $('.title').each(function() {
               var titleDate = $(this).data('scroll-place-type');
-              if(btnData === titleDate) {
+              if (btnData === titleDate) {
                 var titlePlace = $(this).offset().top;
                 $('body,html').animate({
                   scrollTop: titlePlace
