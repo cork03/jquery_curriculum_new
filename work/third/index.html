@@ -32,9 +32,9 @@
           var num = $(this).index();
           // .eq() 引数に応じたindexの要素を指定します。
           // .addClass() クラスを追加します。
-          $('.contents').find('li').addClass('is-hidden')
+          $('.contents').find('li').addClass('is-hidden').eq(num).removeClass('is-hidden');
           // .removeClass() クラスを削除します。
-          $('.contents').find('li').eq(num).removeClass('is-hidden');
+
         });
 
       })
