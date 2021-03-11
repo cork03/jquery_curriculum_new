@@ -112,33 +112,33 @@
             $('.message').empty();
             $('.pager').remove();
           }
-        var getList = function(index, el) {
+        var showList = function(index, el) {
           var param = el.Item;
-          $('.lists').append('<li class="lists__item"><div class="lists__item__inner"><a href="'
-            + param.itemUrl
-            + '" class="lists__item__link" target="_blank"><img src="'
-            + param.largeImageUrl
-            + '" class="lists__item__img" alt=""><p class="lists__item__detail">作品名：'
-            + param.title
-            + '</p><p class="lists__item__detail">作者　：'
-            + param.author
-            + '</p><p class="lists__item__detail">出版社：'
-            + param.publisherName
-            + '</p></a></div></li>'
+          var test = ''
+          $('.lists').append(
+            '<li class="lists__item">' +
+              '<div class="lists__item__inner">' +
+                '<a href="' + param.itemUrl+ '" class="lists__item__link" target="_blank">' +
+                  '<img src="' + param.largeImageUrl + '" class="lists__item__img" alt="">' +
+                  '<p class="lists__item__detail">作品名：' + param.title + '</p>' +
+                  '<p class="lists__item__detail">作者　：' + param.author + '</p>' +
+                  '<p class="lists__item__detail">出版社：' + param.publisherName + '</p>' +
+                '</a>' +
+              '</div>' +
+            '</li>'
             );
         }
         var addPager = function(page, maxPage) {
-          $('.container').append('<div class="pager" data-js="pager"><div class="counter"><span class="counter-current">'
-            + page
-            + '</span>/<span class="counter-all">'
-            + maxPage
-            + '</span></div><div class="btn-wrapper"><a class="btn-item" data-js="page-prev" href="">前へ</a><a class="btn-item" data-js="page-next" href="">次へ</a></div></div>'
+          $('.container').append(
+            '<div class="pager" data-js="pager">' +
+              '<div class="counter">' +
+                '<span class="counter-current">'+ page + '</span>/<span class="counter-all">' + maxPage + '</span>' +
+              '</div>' +
+            '<div class="btn-wrapper">'+
+              '<a class="btn-item" data-js="page-prev" href="">前へ</a>' +
+              '<a class="btn-item" data-js="page-next" href="">次へ</a>' +
+            '</div>'
           );
-        }
-        var display = function(data) {
-          var itemsList = data.Items;
-          $.each(itemsList, getList);
-          addPager(page, maxPage);
           if(page === 1) {
             $('[data-js="page-prev"]').addClass('disabled');
           }
@@ -146,16 +146,18 @@
             $('[data-js="page-next"]').addClass('disabled');
           }
         }
-        var scrollToTop = function() {
-          $('body,html').animate({
-             scrollTop: 0
-            }, 0);
+        var success = function(data) {
+          var itemsList = data.Items;
+          var test = ''
+          $.each(itemsList, showList);
+          addPager(page, maxPage);
         }
         var value = '';
         var page = 1;
         var maxPage = 0;
         var contentPerPage = 20;
         var ajaxCommunication = function() {
+          resetHtml();
           $.ajax({
             url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522',
             type: 'GET',
@@ -168,16 +170,13 @@
               page: page
             },
           }).done(function(data) {
-            resetHtml();
             if(data.count === 0) {
-              $('.message').append('<p class="error-message">検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。</p>');
+              appendErrorMessage('検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。')
               return
             }
             maxPage = data.pageCount;
-            display(data);
-            scrollToTop();
+            success(data);
           }).fail(function (jqXHR) {
-            resetHtml();
             errorMessage(jqXHR.status);
           });
         }
