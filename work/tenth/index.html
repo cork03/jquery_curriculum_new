@@ -88,18 +88,22 @@
       //   </div>
       // </div>
       $(function() {
+        var appendErrorMessage = function(text) {
+          $('.message').append('<p class="error-message">' + text + '</p>');
+        }
         var errorMessage = function(status) {
           switch (status) {
               case 0:
-                $('.message').append(`<p class="error-message">通信に失敗しました。インターネットの接続をご確認ください。</p>`);
+                appendErrorMessage('通信に失敗しました。インターネットの接続をご確認ください。');
                 break;
               case 400:
-                $('.message').append(`<p class="error-message">検索文字が入力されていません。</p>`);
+                appendErrorMessage('検索文字が入力されていません。');
                 break;
               case 429:
-                $('.message').append(`<p class="error-message">リクエスト過多です。しばらく時間を置いてからお試しください。</p>`);
+                appendErrorMessage('リクエスト過多です。しばらく時間を置いてからお試しください。');
                 break;
               default:
+                appendErrorMessage('原因不明のエラーが発生しました。');
                 return
             }
         }
@@ -110,31 +114,26 @@
           }
         var getList = function(index, el) {
           var param = el.Item;
-          $('.lists').append(`
-            <li class="lists__item">
-              <div class="lists__item__inner">
-                <a href="${param.itemUrl}" class="lists__item__link" target="_blank">
-                  <img src="${param.largeImageUrl}" class="lists__item__img" alt="">
-                  <p class="lists__item__detail">作品名： ${param.title}</p>
-                  <p class="lists__item__detail">作者　： ${param.author}</p>
-                  <p class="lists__item__detail">出版社： ${param.publisherName}</p>
-                </a>
-              </div>
-            </li>
-            `);
+          $('.lists').append('<li class="lists__item"><div class="lists__item__inner"><a href="'
+            + param.itemUrl
+            + '" class="lists__item__link" target="_blank"><img src="'
+            + param.largeImageUrl
+            + '" class="lists__item__img" alt=""><p class="lists__item__detail">作品名：'
+            + param.title
+            + '</p><p class="lists__item__detail">作者　：'
+            + param.author
+            + '</p><p class="lists__item__detail">出版社：'
+            + param.publisherName
+            + '</p></a></div></li>'
+            );
         }
         var addPager = function(page, maxPage) {
-          $('.container').append(`
-          <div class="pager" data-js="pager">
-            <div class="counter">
-              <span class="counter-current">${page}</span>/<span class="counter-all">${maxPage}</span>
-            </div>
-            <div class="btn-wrapper">
-              <a class="btn-item" data-js="page-prev" href="">前へ</a>
-              <a class="btn-item" data-js="page-next" href="">次へ</a>
-            </div>
-          </div>
-          `);
+          $('.container').append('<div class="pager" data-js="pager"><div class="counter"><span class="counter-current">'
+            + page
+            + '</span>/<span class="counter-all">'
+            + maxPage
+            + '</span></div><div class="btn-wrapper"><a class="btn-item" data-js="page-prev" href="">前へ</a><a class="btn-item" data-js="page-next" href="">次へ</a></div></div>'
+          );
         }
         var display = function(data) {
           var itemsList = data.Items;
@@ -156,42 +155,7 @@
         var page = 1;
         var maxPage = 0;
         var contentPerPage = 20;
-        $('.search__btn').click(function() {
-          resetHtml();
-          value = $('.search__text__input').val();
-          page = 1;
-          $.ajax({
-            url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522',
-            type: 'GET',
-            datatype: 'json',
-            data: {
-              applicationId: appId,
-              booksGenreId: '001',
-              keyword: value,
-              hits: contentPerPage,
-              page: page
-            },
-          }).done(function(data) {
-            if(data.count === 0) {
-              $('.message').append(`<p class="error-message">検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。</p>`);
-              return
-            }
-            maxPage = data.pageCount;
-            display(data);
-          }).fail(function (jqXHR) {
-            errorMessage(jqXHR.status);
-          });
-        });
-        $(document).on('click', '.btn-item', function() {
-          event.preventDefault();
-          var buttonData = $(this).data('js');
-          if (buttonData === 'page-next' && page < maxPage) {
-            page++;
-          } else if (buttonData === 'page-prev' && page > 1) {
-            page--;
-          } else {
-            return
-          }
+        var ajaxCommunication = function() {
           $.ajax({
             url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522',
             type: 'GET',
@@ -205,10 +169,38 @@
             },
           }).done(function(data) {
             resetHtml();
+            if(data.count === 0) {
+              $('.message').append('<p class="error-message">検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。</p>');
+              return
+            }
+            maxPage = data.pageCount;
             display(data);
             scrollToTop();
-          }).fail(function() {
+          }).fail(function (jqXHR) {
+            resetHtml();
+            errorMessage(jqXHR.status);
           });
+        }
+        $('[data-js="search-btn"]').click(function() {
+          value = $('[data-js="search-word"]').val();
+          page = 1;
+          ajaxCommunication();
+        });
+        $(document).on('click', '[data-js="page-next"]', function() {
+          event.preventDefault();
+          if (page === maxPage) {
+            return
+          }
+          page++;
+          ajaxCommunication();
+        });
+        $(document).on('click', '[data-js="page-prev"]', function() {
+          event.preventDefault();
+          if (page === 1) {
+            return
+          }
+          page--;
+          ajaxCommunication();
         });
       });
     </script>
