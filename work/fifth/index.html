@@ -104,8 +104,8 @@
           if (value === 'all') {
             list.show();
           } else {
-            list.hide().each(function() {
-              var data = $(this).data('category-type');
+            list.hide().each(function(index, value) {
+              var data = value.data('category-type');
               if (value === data) {
                 $(this).show();
               }

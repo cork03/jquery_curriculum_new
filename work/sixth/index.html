@@ -29,7 +29,7 @@
       $(function() {
         $('.input').keyup(function() {
           var textCount = $(this).val().replace(/\s+/g,"").length;
-          var maxCount = 30
+          var maxCount = 30;
           var restCount = maxCount - textCount;
           $('.rest-count').text(restCount);
           if (textCount > 30) {

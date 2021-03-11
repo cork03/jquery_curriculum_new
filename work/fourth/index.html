@@ -57,10 +57,28 @@
       // .children() 要素の子要素を取得します。
       // .stop() 現在動作中のアニメーション処理を全て中止します。
       $(function() {
+        // var menuList = $('.menu__list');
+        // var menuChildren = menuList.children();
+        // $.each(menuChildren, function(index, values) {
+        //   console.log(values)
+        // });
+        // var menuFind = $('.menu__list').find('li');
+        // $.each(menuFind, function(index, values) {
+        //   console.log(values)
+        // });
+        // var test = menuChildren.children().next();
+        // console.log(test)
+        // $.each(test, function(index, value) {
+        //   console.log(value);
+        // });
+
+
         $('.menu__list').children().hover(function() {
-          $(this).find('ul').stop().slideDown()
+          $(this).find('ul').stop().slideDown();
+          // $(this).children().next().stop().slideDown();
         }, function() {
-          $(this).find('ul').stop().slideUp()
+          $(this).find('ul').stop().slideUp();
+          // $(this).children().next().stop().slideUp();
         });
       });
     </script>

@@ -147,9 +147,15 @@
             $('[data-js="page-next"]').addClass('disabled');
           }
         }
+        var scrollToTop = function() {
+          $('body,html').animate({
+             scrollTop: 0
+            });
+        }
         var value = '';
         var page = 1;
         var maxPage = 0;
+        var contentPerPage = 20;
         $('.search__btn').click(function() {
           resetHtml();
           value = $('.search__text__input').val();
@@ -162,7 +168,7 @@
               applicationId: appId,
               booksGenreId: '001',
               keyword: value,
-              hits: 20,
+              hits: contentPerPage,
               page: page
             },
           }).done(function(data) {
@@ -194,16 +200,15 @@
               applicationId: appId,
               booksGenreId: '001',
               keyword: value,
-              hits: 20,
+              hits: contentPerPage,
               page: page
             },
           }).done(function(data) {
             resetHtml();
             display(data);
+            scrollToTop();
           }).fail(function() {
-            debugger
           });
-          debugger
         });
       });
     </script>
