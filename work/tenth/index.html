@@ -112,21 +112,24 @@
             $('.message').empty();
             $('.pager').remove();
           }
-        var showList = function(index, el) {
-          var param = el.Item;
-          var test = ''
-          $('.lists').append(
+        var showList = function(itemsList) {
+          var appendHtml = '';
+          $.each(itemsList, function(index, value) {
+            var item = value.Item;
+            var addHtml =
             '<li class="lists__item">' +
               '<div class="lists__item__inner">' +
-                '<a href="' + param.itemUrl+ '" class="lists__item__link" target="_blank">' +
-                  '<img src="' + param.largeImageUrl + '" class="lists__item__img" alt="">' +
-                  '<p class="lists__item__detail">作品名：' + param.title + '</p>' +
-                  '<p class="lists__item__detail">作者　：' + param.author + '</p>' +
-                  '<p class="lists__item__detail">出版社：' + param.publisherName + '</p>' +
+                '<a href="' + item.itemUrl+ '" class="lists__item__link" target="_blank">' +
+                  '<img src="' + item.largeImageUrl + '" class="lists__item__img" alt="">' +
+                  '<p class="lists__item__detail">作品名：' + item.title + '</p>' +
+                  '<p class="lists__item__detail">作者　：' + item.author + '</p>' +
+                  '<p class="lists__item__detail">出版社：' + item.publisherName + '</p>' +
                 '</a>' +
               '</div>' +
-            '</li>'
-            );
+            '</li>';
+            appendHtml += addHtml;
+          });
+          $('.lists').append(appendHtml);
         }
         var addPager = function(page, maxPage) {
           $('.container').append(
@@ -149,7 +152,7 @@
         var success = function(data) {
           var itemsList = data.Items;
           var test = ''
-          $.each(itemsList, showList);
+          showList(itemsList);
           addPager(page, maxPage);
         }
         var value = '';
